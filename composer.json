@@ -1,0 +1,30 @@
+{
+    "name": "ecxod/debug",
+    "description": "A package for debuging variables.",
+    "type": "library",
+    "keywords": ["debug", "variables"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chr. Eichert",
+            "email": "c+debug@zp1.net"
+        }
+    ],
+    "require": {
+        "php": "^7.2|^7.4|^8.0|^8.2",
+        "mobiledetect/mobiledetectlib": "^2.8.40",
+        "ext-json": "*"
+    },
+    "Suggests": {
+        "php": ">=7.2"
+    },
+
+    "autoload": {
+        "files": [
+            "classes/class.D.php"
+        ],
+        "psr-4": {
+            "debug\\": "classes/"
+        }
+    }
+}
