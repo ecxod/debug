@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ecxod\Debug;
 
-use \Ecxod\Christianeichert\F;
+use function \Ecxod\Funktionen\{isMobile, m};
 
 class D
 {
@@ -83,10 +83,10 @@ class D
         $txt = '';
         $txt .= '<div data-class="' . __METHOD__ . ':' . __LINE__ . '" class="table-responsive-sm">';
         $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="d-inline" id="mike1">';
-        # $txt .= $this->typ($t,"bulina");
-        #$txt .= (empty($m)?"":"\t");
+        // $txt .= $this->typ($t,"bulina");
+        // $txt .= (empty($m)?"":"\t");
         $txt .= '<B>' . $this->typ('$_' . strtoupper($ok), "bulina") . '</B>';
-        #$txt .= '<B>[</B>"'.$k.'"<B>]</B>';
+        // $txt .= '<B>[</B>"'.$k.'"<B>]</B>';
         $txt .= '<B>["<code>' . $k . '</code>"] = </B>';
         if (!in_array($k, SELF::ignoreArray)) {
             //$txt .= htmlspecialchars($v); 
@@ -103,10 +103,10 @@ class D
     {
         $txt = '';
         $txt .= '<div data-class="' . __METHOD__ . ':' . __LINE__ . '" class="table-responsive-sm">';
-        $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="text-light bg-' . $c . '">&nbsp;' . $t . '&nbsp;</span>';
-        $txt .= '<code><span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="">["' . $k . '"]</span></code>';
-        $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="text-' . $c . ' bg-light font-weight-bolder">&nbsp;';
-        $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="ms-5">' . $this->arrayDisplay($ok, $k, $v, $t) . '</span>&nbsp;';
+        $txt .= '<span class="text-light bg-' . $c . '">&nbsp;' . $t . '&nbsp;</span>';
+        $txt .= '<code><span>["' . $k . '"]</span></code>';
+        $txt .= '<span class="text-' . $c . ' bg-light font-weight-bolder">&nbsp;';
+        $txt .= '<span class="ms-5">' . $this->arrayDisplay($ok, $k, $v, $t) . '</span>&nbsp;';
         $txt .= '</span>';
         $txt .= '</div>';
         return $txt;
@@ -124,11 +124,7 @@ class D
     private function arrayDisplay(string $ok, string|int $keyy, array|object $arr, $m = null, string|null $oberkeyy = null)
     {
         $txt = F::m(__METHOD__);
-
-        // $txt .= '<span id="schachtel0" style="white-space: pre;">'."\r";
-        // $txt .= htmlentities(json_encode($arr, JSON_PRETTY_PRINT));
-        // $txt .= '</span>';
-
+        
         $txt .= '<div id="schachtel1" data-class="' . __METHOD__ . ':' . __LINE__ . '" class="d-flex flex-column align-items-start" style="white-space: pre;">';
 
         if (isset($arr) && is_array($arr)) {
@@ -275,15 +271,6 @@ class D
 
 
             foreach (SELF::varArray as $varVar) {
-
-                # if (   !isset( ${$varVar} ) ) { break; }
-
-                // if (   $varVar === "headers") {
-                //   foreach (getallheaders() as $hname => $hvalue) {
-                //     F::logg('[headers] '.$hname.' = '.$hvalue,__METHOD__,__LINE__);
-                //   }
-                // }
-
 
                 if (is_array(${$varVar}) || is_object(${$varVar})) {
                     $cvv = count(${$varVar});
