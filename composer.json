@@ -3,11 +3,11 @@
     "description": "A package for debuging variables.",
     "type": "library",
     "keywords": ["debug", "variables"],
-    "license": "MIT",
+    "license": "GPL",
     "authors": [
         {
             "name": "Chr. Eichert",
-            "email": "c+debug@zp1.net"
+            "email": "c@zp1.net"
         }
     ],
     "require": {
@@ -22,10 +22,10 @@
 
     "autoload": {
         "files": [
-            "classes/class.D.php"
+            "src/D.php"
         ],
         "psr-4": {
-            "debug\\": "classes/"
+            "Ecxod\\Debug\\": "src/debug/"
         }
     }
 }
