@@ -4,6 +4,14 @@
     "type": "library",
     "keywords": ["debug", "variables"],
     "license": "MIT",
+    "autoload": {
+        "files": [
+            "src/debug/D.php"
+        ],
+        "psr-4": {
+            "Ecxod\\Debug\\": "src/debug/"
+        }
+    },
     "authors": [
         {
             "name": "Chr. Eichert",
@@ -20,12 +28,4 @@
         "php": ">=7.2"
     },
 
-    "autoload": {
-        "files": [
-            "src/debug/D.php"
-        ],
-        "psr-4": {
-            "Ecxod\\Debug\\": "src/debug/"
-        }
-    }
 }
