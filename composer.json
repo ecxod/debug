@@ -22,7 +22,7 @@
 
     "autoload": {
         "files": [
-            "src/D.php"
+            "src/debug/D.php"
         ],
         "psr-4": {
             "Ecxod\\Debug\\": "src/debug/"
