@@ -3,7 +3,7 @@
     "description": "A package for debuging variables.",
     "type": "library",
     "keywords": ["debug", "variables"],
-    "license": "GPL",
+    "license": "MIT",
     "authors": [
         {
             "name": "Chr. Eichert",
