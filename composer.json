@@ -5,9 +5,6 @@
     "keywords": ["debug", "variables"],
     "license": "MIT",
     "autoload": {
-        "files": [
-            "src/debug/D.php"
-        ],
         "psr-4": {
             "Ecxod\\Debug\\": "src/debug/"
         }
@@ -21,8 +18,7 @@
     "require": {
         "php": "^7.2|^7.4|^8.0|^8.2",
         "ecxod/funktionen": "^1.0",
-        "twbs/bootstrap": ">=5.2.0",
-        "mobiledetect/mobiledetectlib": "^2.8.40",
+        "twbs/bootstrap": "*",
         "ext-json": "*"
     },
     "Suggests": {
