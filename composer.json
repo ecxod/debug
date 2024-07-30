@@ -20,6 +20,7 @@
     ],
     "require": {
         "php": "^7.2|^7.4|^8.0|^8.2",
+        "ecxod/funktionen": "^1.0",
         "twbs/bootstrap": ">=5.2.0",
         "mobiledetect/mobiledetectlib": "^2.8.40",
         "ext-json": "*"
