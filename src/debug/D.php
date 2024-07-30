@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ecxod\Debug;
 
-use function \Ecxod\Funktionen\{isMobile, m};
+use function \Ecxod\Funktionen\{m, isMobile, userAgent};
 
 class D
 {
@@ -123,7 +123,7 @@ class D
      */
     private function arrayDisplay(string $ok, string|int $keyy, array|object $arr, $m = null, string|null $oberkeyy = null)
     {
-        $txt = F::m(__METHOD__);
+        $txt = m(__METHOD__);
         
         $txt .= '<div id="schachtel1" data-class="' . __METHOD__ . ':' . __LINE__ . '" class="d-flex flex-column align-items-start" style="white-space: pre;">';
 
@@ -235,8 +235,8 @@ class D
     {
         global $row;
 
-        $txt = F::m(__METHOD__);
-        F::userAgent();
+        $txt = m(__METHOD__);
+        userAgent();
 
         // das ist übel aber notwendig
         // $_SESSION['lang'],  $_ENV['CHARSET']
@@ -259,7 +259,7 @@ class D
             and
             in_array($_SERVER['REMOTE_ADDR'], str_getcsv($_ENV['MYIP']))
             and
-            !F::isMobile()
+            !isMobile()
             and
             isset($_SESSION['useragent']['1']['browserlist'])
             and
