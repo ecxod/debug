@@ -8,7 +8,14 @@ use function \Ecxod\Funktionen\{m, isMobile, userAgent};
 
 class D
 {
+    protected array $me;
+    public string   $remote;
 
+    public function __construct()
+    {
+        $this->me = str_getcsv(string: strval(value: $_ENV['MYIP']) ?? "192.168.78.20,217.244.9.139");
+        $this->remote = strval(value: $_SERVER['REMOTE_ADDR']);
+    }
 
     /**
      *
@@ -25,7 +32,6 @@ class D
      *  unknown type
      *
      */
-
     protected const ignoreArray = [ 'SSL_SERVER_CERT', 'REDIRECT_SSL_SERVER_CERT', 'SSL_CLIENT_CERT', 'REDIRECT_SSL_CLIENT_CERT' ];
     /** varArray = headers, get, post, request, cookie, session, files, server, env, glob, result */
     protected const varArray = [ "headers", "get", "post", "request", "cookie", "session", "files", "server", "env", "glob", "result" ];
@@ -79,7 +85,18 @@ class D
         return $txt;
     }
 
-    // "text-light","bg-purple","text-purple","bg-light"
+
+    /** 
+     *  
+     * "text-light","bg-purple","text-purple","bg-light"
+     * 
+     * @param string $ok 
+     * @param string|int $k 
+     * @param array|object $v 
+     * @param string $t 
+     * @param string $c 
+     * @return string 
+     */
     private function array_Div(string $ok, string|int $k, array|object $v, string $t, string $c): string
     {
         $txt = '';
@@ -87,7 +104,7 @@ class D
         $txt .= "<span class=\"text-light bg-$c\">&nbsp;$t&nbsp;</span>";
         $txt .= "<code><span>[\"$k\"]</span></code>";
         $txt .= "<span class=\"text-$c bg-light font-weight-bolder\">&nbsp;";
-        $txt .= '<span class="ms-5">' . $this->array_Display($ok, $k, $v, $t) . '</span>&nbsp;</span>';
+        $txt .= '<span class="ms-5">' . $this->array_Display(ok: $ok, keyy: $k, arr: $v, m: $t) . '</span>&nbsp;</span>';
         $txt .= '</div>';
         return $txt;
     }
@@ -108,7 +125,6 @@ class D
             {
 
                 $t = \gettype(value: $v);
-
                 if($t === 'array' || $t === 'object')
                 {
                     if($k != "GLOBALS" && (\gettype(value: $k) === 'string' || \gettype(value: $k) === 'int'))
@@ -121,7 +137,7 @@ class D
 
                     $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="d-inline" id="mike1">';
                     $txt .= empty($m) ? "" : "\t";
-                    $txt .= '<b>' . $this->typ('$_' . strtoupper(string: $ok), design: "bulina") . '</b>';
+                    $txt .= '<b>' . $this->typ(t: '$_' . strtoupper(string: $ok), design: "bulina") . '</b>';
                     if($oberkeyy)
                         $txt .= "<B>[\"<code>$oberkeyy</code>\"]</b>";
                     $txt .= '<b>["</b>' . ($oberkeyy ? $keyy : "<code>$keyy</code>") . '<b>"]</b>';
@@ -152,12 +168,24 @@ class D
         return '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="text-light bg-' . $c . '">&nbsp;' . $enc_t . '&nbsp;</span>';
     }
 
+    /** zeichnet eine blase/badge
+     * @param string $c color
+     * @param string $t variable type
+     * @return string 
+     */
     private function bulina(string $c, string $t): string
     {
         $enc_t = \htmlspecialchars(string: $t);
         return '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="badge text-bg-' . $c . '">&nbsp;' . $enc_t . '&nbsp;</span>';
     }
 
+    /** 
+     * färbt die spans sp und bulina je nach typ der variable
+     * 
+     * @param string $t die variable
+     * @param null|string|bool $design die span [sp oder bulina] 
+     * @return string 
+     */
     private function typ(string $t, string|bool $design = null): string
     {
         $designs = [ "sp", "bulina" ];
@@ -180,7 +208,6 @@ class D
 
 
 
-
     public function debug($lang = null, $charset = null): string
     {
         global $row;
@@ -188,10 +215,9 @@ class D
         $txt = m(m: __METHOD__);
         userAgent();
 
-        // das ist übel aber notwendig
-        // $_SESSION['lang'],  $_ENV['CHARSET']
         $lang = $_SESSION['lang'] ?? 'de_DE';
-        $charset = $_ENV['CHARSET'] ?? 'UTF-8';
+        $charset = strval(value: $_ENV['CHARSET']) ?? 'UTF-8';
+        // failsafe
         $get = $_GET ?? [];
         $post = $_POST ?? [];
         $cookie = $_COOKIE ?? [];
@@ -205,16 +231,16 @@ class D
         $headers = getallheaders();
 
         if(
-            isset($_SERVER['REMOTE_ADDR'])
+            !empty($this->remote)
             and
-            in_array(needle: $_SERVER['REMOTE_ADDR'], haystack: str_getcsv(string: $_ENV['MYIP']))
+            in_array(needle: $this->remote, haystack: $this->me)
             and
             !isMobile()
             and
-            isset($_SESSION['useragent']['1']['browserlist'])
+            !empty($_SESSION['useragent']['1']['browserlist'])
             and
             stristr(haystack: $_SESSION['useragent']['1']['browserlist'], needle: 'Firefox')
-
+            // TODO Auch auf anderen Browser testen.
         )
         {
             $txt .= '<div data-class="' . __METHOD__ . ':' . __LINE__ . '" class="debug overflow-auto">';
@@ -240,10 +266,9 @@ class D
                         // wir zeigen keine keys
                         if(\in_array(needle: $val, haystack: self::ignoreArray))
                             break;
-
                         // im glob zeigen wir keine system variablen
                         #if (  $varVar=="glob" && in_array(preg_replace('/^\_/i','',strtolower($key)),SELF::notInGlob)) {break;}
-                        $ok = $varVar ?: ''; // oberkategorie
+                        $ok = $varVar ?: '';
                         $t = \gettype(value: $val);
                         $txt = match ($t)
                         {
@@ -256,7 +281,7 @@ class D
                             "object"   => $this->array_Div(ok: $ok, k: $key, v: $val, t: $t, c: "purple"),
                             "null"     => $this->bool_Div(ok: $ok, k: $key, v: $val, t: $t, c: "primary"),
                             default    => $t,
-                        }; // switch zu ende
+                        };
                         unset($t);
                         unset($key);
                         unset($val);
