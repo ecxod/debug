@@ -6,6 +6,16 @@ Part of the Ecxod framework
 php8.2 composer.phar require ecxod/debug
 ```
 
+you will need to set the following variables
+$_ENV[MYIP] = "192.168.178.2,192.168.178.2,23.34.45.56, ..."
+
+cat .htaccess
+```sh
+SetEnv MYIP "192.168.178.2,192.168.178.2,23.34.45.56, ... "
+
+```
+
+
 ```tree
 ├── composer.json
 ├── LICENSE
