@@ -26,12 +26,7 @@ class D
      *
      */
 
-    protected const ignoreArray = [ 
-        'SSL_SERVER_CERT',
-        'REDIRECT_SSL_SERVER_CERT',
-        'SSL_CLIENT_CERT',
-        'REDIRECT_SSL_CLIENT_CERT',
-    ];
+    protected const ignoreArray = [ 'SSL_SERVER_CERT', 'REDIRECT_SSL_SERVER_CERT', 'SSL_CLIENT_CERT', 'REDIRECT_SSL_CLIENT_CERT' ];
     /** varArray = headers, get, post, request, cookie, session, files, server, env, glob, result */
     protected const varArray = [ "headers", "get", "post", "request", "cookie", "session", "files", "server", "env", "glob", "result" ];
     /** notInGlob = get, post, request, cookie, session, files, server */
