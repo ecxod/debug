@@ -2,7 +2,10 @@
     "name": "ecxod/debug",
     "description": "A package for debuging variables.",
     "type": "library",
-    "keywords": ["debug", "variables"],
+    "keywords": [
+        "debug",
+        "variables"
+    ],
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -19,9 +22,28 @@
         "php": "^7.2|^7.4|^8.0|^8.2",
         "ecxod/funktionen": "^1.0",
         "twbs/bootstrap": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "scssphp/scssphp": "*"
     },
     "Suggests": {
         "php": ">=7.2"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "mkdir -p public/static/css/",
+            "@scss"
+        ],
+        "post-update-cmd": [
+            "mkdir -p public/static/css/",
+            "@scss"
+        ],
+        "scss": "vendor/bin/scssphp --watch scss/ --css=public/static/css/"
+    },
+    "config": {
+        "vendor-dir": "vendor"
+    },
+    "extra": {
+        "scss-source-dir": "scss",
+        "scss-output-dir": "public/static/css"
     }
 }
