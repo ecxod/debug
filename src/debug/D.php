@@ -26,37 +26,23 @@ class D
      *
      */
 
-    protected const ignoreArray  = array(
+    protected const ignoreArray = [ 
         'SSL_SERVER_CERT',
         'REDIRECT_SSL_SERVER_CERT',
         'SSL_CLIENT_CERT',
-        'REDIRECT_SSL_CLIENT_CERT'
-    );
+        'REDIRECT_SSL_CLIENT_CERT',
+    ];
     /** varArray = headers, get, post, request, cookie, session, files, server, env, glob, result */
-    protected const varArray     = array("headers", "get", "post", "request", "cookie", "session", "files", "server", "env", "glob", "result");
+    protected const varArray = [ "headers", "get", "post", "request", "cookie", "session", "files", "server", "env", "glob", "result" ];
     /** notInGlob = get, post, request, cookie, session, files, server */
-    protected const notInGlob    = array("get", "post", "request", "cookie", "session", "files", "server");
+    protected const notInGlob = [ "get", "post", "request", "cookie", "session", "files", "server" ];
     /** showDetails = get, post, request, cookie, session "*/
-    protected const showDetails  = array("get", "post", "request", "cookie", "session");
+    protected const showDetails = [ "get", "post", "request", "cookie", "session" ];
 
-    // protected const get          = array();
-    // protected const post         = array();
-    // protected const cookie       = array();
-    // protected const session      = array();
-    // protected const files        = array();
-    // protected const server       = array();
-    // protected const request      = array();
-    // protected const env          = array();
-    // protected const glob         = array();
-
-    private function details($v)
+    private function details($v): string
     {
-        if (in_Array($v, SELF::showDetails)) {
-            return ' open="" ';
-        }
+        return \in_array(needle: $v, haystack: self::showDetails) ? ' open="" ' : '';
     }
-
-
 
     /**
      * @param string|int $k   anzahl
@@ -65,7 +51,7 @@ class D
      * @param string $c       farbe
      * @return string 
      */
-    private function boolDiv(string $ok, string|int $k, bool $v, string $t, string $c)
+    private function bool_Div(string $ok, string|int $k, bool $v, string $t, string $c): string
     {
         // "text-light","bg-primary","text-primary","bg-light
         $txt = '';
@@ -78,42 +64,38 @@ class D
     }
 
     // "text-light","bg-dark","text-dark","bg-light"
-    private function stringDiv(string $ok, string|int $k, string|float $v, string $t, string $c)
+    private function string_Div(string $ok, string|int $k, string|float $v, string $t, string $c): string
     {
         $txt = '';
         $txt .= '<div data-class="' . __METHOD__ . ':' . __LINE__ . '" class="table-responsive-sm">';
         $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="d-inline" id="mike1">';
         // $txt .= $this->typ($t,"bulina");
         // $txt .= (empty($m)?"":"\t");
-        $txt .= '<B>' . $this->typ('$_' . strtoupper($ok), "bulina") . '</B>';
+        $txt .= '<B>' . $this->typ(t: '$_' . strtoupper(string: $ok), design: "bulina") . '</B>';
         // $txt .= '<B>[</B>"'.$k.'"<B>]</B>';
-        $txt .= '<B>["<code>' . $k . '</code>"] = </B>';
-        if (!in_array($k, SELF::ignoreArray)) {
-            //$txt .= htmlspecialchars($v); 
-            $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="text-' . $c . ' bg-light font-weight-bolder">&nbsp;' . htmlentities((strval($v))) . '&nbsp;</span>';
+        $txt .= "<B>[\"<code>$k</code>\"] = </B>";
+        if(!in_array(needle: $k, haystack: self::ignoreArray))
+        {
+            $enc_v = \htmlentities(string: \strval(value: $v));
+            $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="text-' . $c . ' font-weight-bolder">&nbsp;' . $enc_v . '&nbsp;</span>';
         }
         $txt .= '</span>';
-
         $txt .= '</div>';
         return $txt;
     }
 
     // "text-light","bg-purple","text-purple","bg-light"
-    private function arrayDiv(string $ok, string|int $k, array|object $v, string $t, string $c)
+    private function array_Div(string $ok, string|int $k, array|object $v, string $t, string $c): string
     {
         $txt = '';
         $txt .= '<div data-class="' . __METHOD__ . ':' . __LINE__ . '" class="table-responsive-sm">';
-        $txt .= '<span class="text-light bg-' . $c . '">&nbsp;' . $t . '&nbsp;</span>';
-        $txt .= '<code><span>["' . $k . '"]</span></code>';
-        $txt .= '<span class="text-' . $c . ' bg-light font-weight-bolder">&nbsp;';
-        $txt .= '<span class="ms-5">' . $this->arrayDisplay($ok, $k, $v, $t) . '</span>&nbsp;';
-        $txt .= '</span>';
+        $txt .= "<span class=\"text-light bg-$c\">&nbsp;$t&nbsp;</span>";
+        $txt .= "<code><span>[\"$k\"]</span></code>";
+        $txt .= "<span class=\"text-$c bg-light font-weight-bolder\">&nbsp;";
+        $txt .= '<span class="ms-5">' . $this->array_Display($ok, $k, $v, $t) . '</span>&nbsp;</span>';
         $txt .= '</div>';
         return $txt;
     }
-
-
-
 
     /**
      * @param string|int $keyy  array key
@@ -121,31 +103,37 @@ class D
      * @param mixed $m          soll eine multidimensionelle array sein
      * @return string 
      */
-    private function arrayDisplay(string $ok, string|int $keyy, array|object $arr, $m = null, string|null $oberkeyy = null)
+    private function array_Display(string $ok, string|int $keyy, array|object $arr, $m = null, string|null $oberkeyy = null): string
     {
-        $txt = m(__METHOD__);
-        
+        $txt = m(m: __METHOD__);
         $txt .= '<div id="schachtel1" data-class="' . __METHOD__ . ':' . __LINE__ . '" class="d-flex flex-column align-items-start" style="white-space: pre;">';
+        if(isset($arr) && is_array(value: $arr))
+        {
+            foreach($arr as $k => $v)
+            {
 
-        if (isset($arr) && is_array($arr)) {
-            foreach ($arr as $k => $v) {
+                $t = \gettype(value: $v);
 
-                $t = gettype($v);
-
-                if ($t === 'array' || $t === 'object') {
-                    if ($k != "GLOBALS" && (gettype($k) === 'string' || gettype($k) === 'int')) {
-                        $txt .= $this->arrayDisplay($ok, $k, $v, "s", $keyy);
+                if($t === 'array' || $t === 'object')
+                {
+                    if($k != "GLOBALS" && (\gettype(value: $k) === 'string' || \gettype(value: $k) === 'int'))
+                    {
+                        $txt .= $this->array_Display($ok, keyy: $k, arr: $v, m: "s", oberkeyy: $keyy);
                     }
-                } else {
+                }
+                else
+                {
 
                     $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="d-inline" id="mike1">';
-                    $txt .= (empty($m) ? "" : "\t");
-                    $txt .= '<b>' . $this->typ('$_' . strtoupper($ok), "bulina") . '</b>';
-                    if ($oberkeyy) $txt .= '<B>["<code>' . $oberkeyy . '</code>"]</b>';
-                    $txt .= '<b>["</b>' . ($oberkeyy ? $keyy : '<code>' . $keyy . '</code>') . '<b>"]</b>';
-                    $txt .= '<b>["</b>' . $k . '<b>"] = </b>';
-                    if (!in_array($k, SELF::ignoreArray)) {
-                        $txt .= htmlspecialchars(strval($v));
+                    $txt .= empty($m) ? "" : "\t";
+                    $txt .= '<b>' . $this->typ('$_' . strtoupper(string: $ok), design: "bulina") . '</b>';
+                    if($oberkeyy)
+                        $txt .= "<B>[\"<code>$oberkeyy</code>\"]</b>";
+                    $txt .= '<b>["</b>' . ($oberkeyy ? $keyy : "<code>$keyy</code>") . '<b>"]</b>';
+                    $txt .= "<b>[\"</b>$k<b>\"] = </b>";
+                    if(!\in_array(needle: $k, haystack: self::ignoreArray))
+                    {
+                        $txt .= \htmlspecialchars(string: \strval(value: $v));
                     }
                     $txt .= '</span>';
 
@@ -158,181 +146,122 @@ class D
         return $txt;
     }
 
-
-
-
     /** zeichnet einen Span eintrag
      * @param string $c     color
      * @param string $t     variable type
      * @return string 
      */
-    private function sp(string $c, string $t)
+    private function sp(string $c, string $t): string
     {
-        $txt = "";
-        $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="text-light bg-' . $c . '">&nbsp;' . htmlspecialchars($t) . '&nbsp;</span>';
+        $enc_t = \htmlspecialchars(string: $t);
+        return '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="text-light bg-' . $c . '">&nbsp;' . $enc_t . '&nbsp;</span>';
+    }
+
+    private function bulina(string $c, string $t): string
+    {
+        $enc_t = \htmlspecialchars(string: $t);
+        return '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="badge text-bg-' . $c . '">&nbsp;' . $enc_t . '&nbsp;</span>';
+    }
+
+    private function typ(string $t, string|bool $design = null): string
+    {
+        $designs = [ "sp", "bulina" ];
+        $d = \in_array(needle: $design, haystack: $designs) ? $design : "sp";
+        $txt = match (gettype(value: $t))
+        {
+            "boolean"  => $this->$d("dark", $t),
+            "integer"  => $this->$d("primary", $t),
+            "double"   => $this->$d("danger", $t),
+            "string"   => $this->$d("success", $t),
+            "array"    => $this->$d("secondary", $t),
+            "object"   => $this->$d("danger", $t),
+            "resource" => $this->$d("warning", $t),
+            "null"     => $this->$d("info", $t),
+            "NULL"     => $this->$d("info", $t),
+            default    => $t,
+        };
         return $txt;
     }
 
 
 
 
-
-
-    private function typ(string $t, string|bool $design = null)
-    {
-        $designs = array("sp", "bulina");
-        if (in_array($design, $designs)) {
-            $d = $design;
-        } else {
-            $d = "sp";
-        }
-        $txt = "";
-        switch (gettype($t)) {
-            case "boolean":
-                $txt .= $this->$d("dark", $t);
-                break;
-            case "integer":
-                $txt .= $this->$d("primary", $t);
-                break;
-            case "double":
-                $txt .= $this->$d("danger", $t);
-                break;
-            case "string":
-                $txt .= $this->$d("success", $t);
-                break;
-            case "array":
-                $txt .= $this->$d("secondary", $t);
-                break;
-            case "object":
-                $txt .= $this->$d("danger", $t);
-                break;
-            case "resource":
-                $txt .= $this->$d("warning", $t);
-                break;
-            case "null":
-                $txt .= $this->$d("info", $t);
-                break;
-            case "NULL":
-                $txt .= $this->$d("info", $t);
-                break;
-            default:
-                $txt .= $t;
-                break;
-        }
-        return $txt;
-    }
-
-
-    private function bulina(string $c, string $t)
-    {
-        $txt = "";
-        $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="badge text-bg-' . $c . '">&nbsp;' . htmlspecialchars($t) . '&nbsp;</span>';
-        return $txt;
-    }
-
-
-    function debug($lang = null, $charset = null)
+    public function debug($lang = null, $charset = null): string
     {
         global $row;
 
-        $txt = m(__METHOD__);
+        $txt = m(m: __METHOD__);
         userAgent();
 
         // das ist übel aber notwendig
         // $_SESSION['lang'],  $_ENV['CHARSET']
-        $lang     = (isset($_SESSION['lang']) ? $_SESSION['lang'] : 'de_DE');
-        $charset  = (isset($_ENV['CHARSET']) ?  $_ENV['CHARSET'] : 'UTF-8');
-        $get      = (isset($_GET) ? $_GET : array());
-        $post     = (isset($_POST) ? $_POST : array());
-        $cookie   = (isset($_COOKIE) ? $_COOKIE : array());
-        $session  = (isset($_SESSION) ? $_SESSION : array());
-        $files    = (isset($_FILES) ? $_FILES : array());
-        $server   = (isset($_SERVER) ? $_SERVER : array());
-        $request  = (isset($_REQUEST) ? $_REQUEST : array());
-        $env      = (isset($_ENV) ? $_ENV : array());
-        $glob     = (isset($GLOBALS) ? $GLOBALS : array());
-        $result   = (isset($row) ? $row : array());
-        $headers  = getallheaders();
+        $lang = $_SESSION['lang'] ?? 'de_DE';
+        $charset = $_ENV['CHARSET'] ?? 'UTF-8';
+        $get = $_GET ?? [];
+        $post = $_POST ?? [];
+        $cookie = $_COOKIE ?? [];
+        $session = $_SESSION ?? [];
+        $files = $_FILES ?? [];
+        $server = $_SERVER ?? [];
+        $request = $_REQUEST ?? [];
+        $env = $_ENV ?? [];
+        $glob = $GLOBALS ?? [];
+        $result = $row ?? [];
+        $headers = getallheaders();
 
-        if (
+        if(
             isset($_SERVER['REMOTE_ADDR'])
             and
-            in_array($_SERVER['REMOTE_ADDR'], str_getcsv($_ENV['MYIP']))
+            in_array(needle: $_SERVER['REMOTE_ADDR'], haystack: str_getcsv(string: $_ENV['MYIP']))
             and
             !isMobile()
             and
             isset($_SESSION['useragent']['1']['browserlist'])
             and
-            stristr($_SESSION['useragent']['1']['browserlist'], 'Firefox')
+            stristr(haystack: $_SESSION['useragent']['1']['browserlist'], needle: 'Firefox')
 
-        ) {
-
+        )
+        {
             $txt .= '<div data-class="' . __METHOD__ . ':' . __LINE__ . '" class="debug overflow-auto">';
+            foreach(self::varArray as $varVar)
+            {
+                $cvv = (\is_array(value: ${$varVar}) || \is_object(value: ${$varVar})) ? \count(value: ${$varVar}) : false;
+                if($cvv)
+                {
+                    $details = $this->details(v: $varVar);
+                    $txt .= sprintf(
+                        "<details \"%s\"><summary data-class=\"%s\":\"%d\" class=\"alert alert-secondary m-1 p-1\" role=\"alert\"><code><span data-class=\"%s\":\"%d\" class=\"font-weight-bold\">%s</span> [%d]</code></summary>",
+                        $details,
+                        __METHOD__,
+                        __LINE__,
+                        __METHOD__,
+                        __LINE__,
+                        $varVar,
+                        $cvv
+                    );
 
-
-            foreach (SELF::varArray as $varVar) {
-
-                if (is_array(${$varVar}) || is_object(${$varVar})) {
-                    $cvv = count(${$varVar});
-                } else {
-                    $cvv = false;
-                }
-
-                if ($cvv) {
-
-                    $txt .= '<details ' . $this->details($varVar) . ' >';
-                    $txt .= '<summary data-class="' . __METHOD__ . ':' . __LINE__ . '" class="alert alert-secondary m-1 p-1" role="alert">';
-                    $txt .= '<code><span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="font-weight-bold">' . $varVar . '</span> [' . $cvv . ']</code>';
-                    $txt .= '</summary>';
-
-                    foreach (${$varVar} as $key => $val) {
+                    foreach(${$varVar} as $key => $val)
+                    {
                         // wir zeigen keine keys
-                        if (in_array($val, SELF::ignoreArray)) {
+                        if(\in_array(needle: $val, haystack: self::ignoreArray))
                             break;
-                        }
+
                         // im glob zeigen wir keine system variablen
                         #if (  $varVar=="glob" && in_array(preg_replace('/^\_/i','',strtolower($key)),SELF::notInGlob)) {break;}
-                        $ok = ($varVar ? $varVar : ''); // oberkategorie
-
-                        $t = gettype($val);
-
-                        switch ($t) {
-
-                            case "boolean":
-                                $txt .= $this->boolDiv($ok, $key, $val, $t, "primary");
-                                break;
-
-                            case "integer":
-                                $txt .= $this->stringDiv($ok, $key, $val, $t, "dark");
-                                break;
-
-                            case "double":
-                                $txt .= $this->stringDiv($ok, $key, $val, $t, "danger");
-                                break;
-
-                            case "string":
-                                $txt .= $this->stringDiv($ok, $key, $val, $t, "success");
-                                break;
-                            case "resource":
-                                $txt .= $this->stringDiv($ok, $key, $val, $t, "success");
-                                break;
-
-                            case "array":
-                                $txt .= $this->arrayDiv($ok, $key, $val, $t, "secondary");
-                                break;
-                                #case "prepared": $txt .= $this->arrayDiv($ok,$key,$val,$t,"secondary");break;
-                            case "object":
-                                $txt .= $this->arrayDiv($ok, $key, $val, $t, "purple");
-                                break;
-
-                            case "null":
-                                $txt .= $this->boolDiv($ok, $key, $val, $t, "primary");
-                                break;
-
-                            default:
-                                $txt .= $t;
-                                break;
-                        } // switch zu ende
+                        $ok = $varVar ?: ''; // oberkategorie
+                        $t = \gettype(value: $val);
+                        $txt = match ($t)
+                        {
+                            "boolean"  => $this->bool_Div(ok: $ok, k: $key, v: $val, t: $t, c: "primary"),
+                            "integer"  => $this->string_Div(ok: $ok, k: $key, v: $val, t: $t, c: "dark"),
+                            "double"   => $this->string_Div(ok: $ok, k: $key, v: $val, t: $t, c: "danger"),
+                            "string"   => $this->string_Div(ok: $ok, k: $key, v: $val, t: $t, c: "success"),
+                            "resource" => $this->string_Div(ok: $ok, k: $key, v: $val, t: $t, c: "success"),
+                            "array"    => $this->array_Div(ok: $ok, k: $key, v: $val, t: $t, c: "secondary"),
+                            "object"   => $this->array_Div(ok: $ok, k: $key, v: $val, t: $t, c: "purple"),
+                            "null"     => $this->bool_Div(ok: $ok, k: $key, v: $val, t: $t, c: "primary"),
+                            default    => $t,
+                        }; // switch zu ende
                         unset($t);
                         unset($key);
                         unset($val);
