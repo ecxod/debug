@@ -23,27 +23,18 @@
         "ecxod/funktionen": "^1.0",
         "twbs/bootstrap": "*",
         "ext-json": "*",
-        "scssphp/scssphp": "^1.6"
+        "scssphp/scssphp": "*"
     },
     "Suggests": {
         "php": ">=7.2"
     },
     "scripts": {
         "post-install-cmd": [
-            "mkdir -p public/static/css/",
-            "@scss"
+            "php compile-scss.php"
         ],
         "post-update-cmd": [
-            "mkdir -p public/static/css/",
-            "@scss"
-        ],
-        "scss": "vendor/bin/scssphp --watch scss/ --css=public/static/css/"
-    },
-    "config": {
-        "vendor-dir": "vendor"
-    },
-    "extra": {
-        "scss-source-dir": "scss",
-        "scss-output-dir": "public/static/css"
+            "php compile-scss.php"
+        ]
     }
+
 }
