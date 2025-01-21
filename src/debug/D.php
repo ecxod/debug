@@ -270,7 +270,7 @@ class D
                         #if (  $varVar=="glob" && in_array(preg_replace('/^\_/i','',strtolower($key)),SELF::notInGlob)) {break;}
                         $ok = $varVar ?: '';
                         $t = \gettype(value: $val);
-                        $txt = match ($t)
+                        $txt .= match ($t)
                         {
                             "boolean"  => $this->bool_Div(ok: $ok, k: $key, v: $val, t: $t, c: "primary"),
                             "integer"  => $this->string_Div(ok: $ok, k: $key, v: $val, t: $t, c: "dark"),
