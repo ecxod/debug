@@ -23,7 +23,7 @@
         "ecxod/funktionen": "^1.0",
         "twbs/bootstrap": "*",
         "ext-json": "*",
-        "scssphp/scssphp": "*"
+        "scssphp/scssphp": "^1.6"
     },
     "Suggests": {
         "php": ">=7.2"
