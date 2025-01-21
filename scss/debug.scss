@@ -1,5 +1,15 @@
 @charset "UTF-8";
-@import '__data';
+
+$screen: 88em;
+$padding: 1.5em;
+$small-border-y: .5em;
+$small-border-x: 1.5em;
+$titel-color: #363636;
+$debug-top: 0em;
+$debug-right: 0em;
+$debug-width: 45em;
+$debug-width-max: 45em;
+$debug-background-color: LightGoldenrodYellow;
 
 /* ----------------------
 
@@ -23,10 +33,10 @@
 
 @media only screen and (min-width:1400px) {
     :root {
-        --screen: 1400px;
-        --padding: 10px;
-        --small-border-y: 3px;
-        --small-border-x: 10px;
+        --screen: #{$screen};
+        --padding: #{$padding};
+        --small-border-y: #{$small-border-x};
+        --small-border-x: #{$small-border-y};
         --debug-top: #{$debug-top};
         --debug-right: #{$debug-right};
         --debug-width: #{$debug-width};
@@ -53,12 +63,10 @@
     span.debug,
     pre.debug {
         font-size: 0.7rem;
-        /* width: VAR(--debug-width); */
     }
 
     form,
     i {
-        /* margin-left: -27px; */
         cursor: pointer;
     }
 }
