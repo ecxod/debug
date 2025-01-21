@@ -26,11 +26,12 @@ cat vendor/ecxod/debug
 vendor
   ├─ecxod
   │   ├─debug
+  │       ├── compiler.php
   │       ├── composer.json
+  │       ├── composer.phar
   │       ├── LICENSE
   │       ├── README.md
   │       ├── scss
-          │   ├── __data.scss
           │   └── debug.scss
           └── src
                └── debug
