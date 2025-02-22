@@ -251,7 +251,7 @@ class D
                 {
                     $details = $this->details(v: $varVar);
                     $txt .= sprintf(
-                        "<details \"%s\"><summary data-class=\"%s\":\"%d\" class=\"alert alert-secondary m-1 p-1\" role=\"alert\"><code><span data-class=\"%s\":\"%d\" class=\"font-weight-bold\">%s</span> [%d]</code></summary>",
+                        "<details %s><summary data-class=\"%s:%d\" class=\"alert alert-secondary m-1 p-1\" role=\"alert\"><code><span data-class=\"%s:%d\" class=\"font-weight-bold\">%s</span> [%d]</code></summary>",
                         $details,
                         __METHOD__,
                         __LINE__,
