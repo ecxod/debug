@@ -7,14 +7,14 @@ use ScssPhp\ScssPhp\OutputStyle;
 use function \Sentry\init;
 
 $path = realpath(path: __DIR__ . '/../../../');
-$autoload = realpath(path: $path . '/vendor/autoload.php');
+$autoload = realpath(path: "$path/vendor/autoload.php");
 if($autoload === false)
 {
     throw new Exception(message: "Unabble to find \"vendor/autoload.php\". Please adapt \$path. ");
 }
 else
 {
-    require_once($autoload);
+    require_once $autoload;
     $scss = new Compiler();
     $scss->setOutputStyle(style: OutputStyle::COMPRESSED);
     $scss->setSourceMap(sourceMap: Compiler::SOURCE_MAP_FILE);
@@ -27,21 +27,23 @@ else
     $dotenv->required(variables: 'DOCROOT');
     $dotenv->required(variables: "STATIC");
     $dotenv->required(variables: "CSSPATH");
+
     if(empty($_ENV['SENTRY']))
     {
         init(options: [ 'dsn' => strval(value: $_ENV['SENTRY']) ]);
     }
+
     if(strval(value: $_ENV["WORKSPACE"]) !== $path or strval(value: $_ENV["AUTOLOAD"]) !== $autoload)
     {
         throw new Exception(message: "SCHLIMM: Unsauberer Pfad zu \"vendor/autoload.php\". Pruefen sie die ENV Variablen.");
     }
 
-    $scss->setSourceMapOptions([ 
+    $scss->setSourceMapOptions(sourceMapOptions: [ 
         'sourceMapWriteTo'  => realpath(path: $_ENV["CSSPATH"] . '/debug.min.css.map'),
         'sourceMapURL'      => 'debug.min.css.map',
         'sourceMapFilename' => 'debug.min.css',
         'sourceMapBasepath' => realpath(path: $_ENV["WORKSPACE"]),
-        'sourceRoot'        => '/scss',
+        'sourceRoot'        => realpath($_ENV["SCSSPATH"]),
     ]);
 
     // Alle SCSS-Dateien im Verzeichnis finden
