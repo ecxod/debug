@@ -10,7 +10,7 @@ $path = realpath(path: __DIR__ . '/../../../');
 $autoload = realpath(path: $path . '/vendor/autoload.php');
 if($autoload === false)
 {
-    throw new Exception(message: "Finde Pfad zu \"vendor/autoload.php\" nicht.");
+    throw new Exception(message: "Unabble to find \"vendor/autoload.php\". Please adapt \$path. ");
 }
 else
 {
