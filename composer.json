@@ -8,9 +8,6 @@
     ],
     "license": "MIT",
     "autoload": {
-        "files":[
-            "scss/debug.scss"
-        ],
         "psr-4": {
             "Ecxod\\Debug\\": "src/debug/"
         }
