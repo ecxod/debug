@@ -47,7 +47,7 @@ else
     ]);
 
     // Alle SCSS-Dateien im Verzeichnis finden
-    foreach(glob($_ENV["SCSSPATH"] . "/*.scss") as $scssFile)
+    foreach(glob( "scss/*.scss") as $scssFile)
     {
         // Überprüfe, ob der Dateiname nicht mit '_' beginnt
         if(basename($scssFile)[0] !== '_')
