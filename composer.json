@@ -8,6 +8,9 @@
     ],
     "license": "MIT",
     "autoload": {
+        "files":[
+            "scss/debug.scss"
+        ],
         "psr-4": {
             "Ecxod\\Debug\\": "src/debug/"
         }
@@ -23,6 +26,7 @@
         "ecxod/funktionen": "^1.0",
         "twbs/bootstrap": "*",
         "ext-json": "*",
+        "sentry/sentry": "*",
         "scssphp/scssphp": "*"
     },
     "Suggests": {
@@ -30,10 +34,10 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "php compile-scss.php"
+            "php compiler.php"
         ],
         "post-update-cmd": [
-            "php compile-scss.php"
+            "php compiler.php"
         ]
     }
 
