@@ -23,19 +23,6 @@
         "ecxod/funktionen": "^1.0",
         "twbs/bootstrap": "*",
         "ext-json": "*",
-        "sentry/sentry": "*",
-        "scssphp/scssphp": "*"
-    },
-    "Suggests": {
-        "php": ">=7.2"
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "php compiler.php"
-        ],
-        "post-update-cmd": [
-            "php compiler.php"
-        ]
+        "sentry/sentry": "*"
     }
-
 }
