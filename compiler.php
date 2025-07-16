@@ -6,7 +6,7 @@ use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
 use function \Sentry\init;
 
-$path = realpath(path: __DIR__ . '/../../../');
+$path     = realpath(path: __DIR__ . '/../../../');
 $autoload = realpath(path: "$path/vendor/autoload.php");
 if($autoload === false)
 {
@@ -47,12 +47,12 @@ else
     ]);
 
     // Alle SCSS-Dateien im Verzeichnis finden
-    foreach(glob( "scss/*.scss") as $scssFile)
+    foreach(glob("scss/*.scss") as $scssFile)
     {
         // Überprüfe, ob der Dateiname nicht mit '_' beginnt
         if(basename($scssFile)[0] !== '_')
         {
-            $cssFile = $_ENV["CSSPATH"] . DIRECTORY_SEPARATOR . basename(path: $scssFile, suffix: '.scss') . '.min.css';
+            $cssFile       = $_ENV["CSSPATH"] . DIRECTORY_SEPARATOR . basename(path: $scssFile, suffix: '.scss') . '.min.css';
             $sourceMapFile = $cssFile . '.map';
 
             try
@@ -63,7 +63,7 @@ else
                 trigger_error(message: "Kompiliert: $scssFile -> $cssFile\n", error_level: E_USER_NOTICE);
                 trigger_error(message: "Source-Map: $sourceMapFile\n", error_level: E_USER_NOTICE);
             }
-            catch (Throwable $e)
+            catch ( Throwable $e )
             {
                 throw new Exception(message: "Fehler beim Kompilieren von $scssFile: {$e->getMessage()}\n");
             }
