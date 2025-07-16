@@ -58,7 +58,7 @@ class D
         $txt = '';
         $txt .= '<div data-class="' . __METHOD__ . ':' . __LINE__ . '" class="table-responsive-sm">';
         $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="text-light bg-' . $c . '">&nbsp;' . $t . '&nbsp;</span>';
-        $txt .= '<code data-line="' . __LINE__ . '"><span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="debug">["' . strval($k) . '"]=</span></code>';
+        $txt .= '<code><span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="debug">["' . strval($k) . '"]=</span></code>';
         $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="text-' . $c . ' bg-light font-weight-bolder">&nbsp;' . ($v ? "true" : "false") . '&nbsp;</span>';
         $txt .= '</div>';
         return $txt;
@@ -70,8 +70,10 @@ class D
         $txt = '';
         $txt .= '<div data-class="' . __METHOD__ . ':' . __LINE__ . '" class="table-responsive-sm">';
         $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="d-inline" id="mike1">';
+        // $txt .= $this->typ($t,"bulina");
         // $txt .= (empty($m)?"":"\t");
         $txt .= '<B>' . $this->typ(t: '$_' . strtoupper(string: $ok), design: "bulina") . '</B>';
+        // $txt .= '<B>[</B>"'.$k.'"<B>]</B>';
         $txt .= "<B>[\"<code>$k</code>\"] = </B>";
         if(!in_array(needle: $k, haystack: self::ignoreArray))
         {
@@ -100,7 +102,7 @@ class D
         $txt = '';
         $txt .= '<div data-class="' . __METHOD__ . ':' . __LINE__ . '" class="table-responsive-sm">';
         $txt .= "<span class=\"text-light bg-$c\">&nbsp;$t&nbsp;</span>";
-        $txt .= "<code data-line=\"" . __LINE__ . "\"><span>[\"$k\"]</span></code>";
+        $txt .= "<code><span>[\"$k\"]</span></code>";
         $txt .= "<span class=\"text-$c bg-light font-weight-bolder\">&nbsp;";
         $txt .= '<span class="ms-5">' . $this->array_Display(ok: $ok, keyy: $k, arr: $v, m: $t) . '</span>&nbsp;</span>';
         $txt .= '</div>';
@@ -132,11 +134,12 @@ class D
                 }
                 else
                 {
+
                     $txt .= '<span data-class="' . __METHOD__ . ':' . __LINE__ . '" class="d-inline" id="mike1">';
                     $txt .= empty($m) ? "" : "\t";
                     $txt .= '<b>' . $this->typ(t: '$_' . strtoupper(string: $ok), design: "bulina") . '</b>';
                     if($oberkeyy)
-                        $txt .= "<B>[\"<code data-line='" . __LINE__ . "'>$oberkeyy</code>\"]</b>";
+                        $txt .= "<B>[\"<code>$oberkeyy</code>\"]</b>";
                     $txt .= '<b>["</b>' . ($oberkeyy ? $keyy : "<code>$keyy</code>") . '<b>"]</b>';
                     $txt .= "<b>[\"</b>$k<b>\"] = </b>";
                     if(!\in_array(needle: $k, haystack: self::ignoreArray))
@@ -144,6 +147,7 @@ class D
                         $txt .= \htmlspecialchars(string: \strval(value: $v));
                     }
                     $txt .= '</span>';
+
                     unset($t);
                 }
             } // ende foreach
@@ -204,7 +208,7 @@ class D
 
 
 
-    public function debug($lang = null, $charset = null): string
+    public function debug(string|null $lang = null, string|null $charset = null, int $width = 0): string
     {
         global $row;
 
@@ -239,7 +243,8 @@ class D
             // TODO Auch auf anderen Browser testen.
         )
         {
-            $txt .= '<div data-class="' . __METHOD__ . ':' . __LINE__ . '" class="debug overflow-auto">';
+            $debug_style = empty($width) ? '' : " style=\"width:{$width}px;\" ";
+            $txt .= '<div data-class="' . __METHOD__ . ':' . __LINE__ . '" class="debug overflow-auto" ' . $debug_style . '>';
             foreach(self::varArray as $varVar)
             {
                 $cvv = (\is_array(value: ${$varVar}) || \is_object(value: ${$varVar})) ? \count(value: ${$varVar}) : false;
