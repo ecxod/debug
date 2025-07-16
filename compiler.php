@@ -6,7 +6,7 @@ use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
 use function \Sentry\init;
 
-$path     = realpath(path: __DIR__ . '/../../../');
+$path = dirname(realpath($_SERVER['DOCUMENT_ROOT']));
 $autoload = realpath(path: "$path/vendor/autoload.php");
 if($autoload === false)
 {
