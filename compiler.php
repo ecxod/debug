@@ -6,11 +6,13 @@ use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
 use function \Sentry\init;
 
-$path = dirname(realpath($_SERVER['DOCUMENT_ROOT']));
+
+
+$path = realpath(__DIR__);
 $autoload = realpath(path: "$path/vendor/autoload.php");
 if($autoload === false)
 {
-    throw new Exception(message: "Unabble to find \"vendor/autoload.php\". Please adapt \$path. ");
+    throw new Exception(message: "Unable to find \"vendor/autoload.php\". Please adapt \$path=$path");
 }
 else
 {
@@ -20,34 +22,29 @@ else
     $scss->setSourceMap(sourceMap: Compiler::SOURCE_MAP_FILE);
     $dotenv = Dotenv::createImmutable(paths: $path);
     $dotenv->load();
-    $dotenv->required(variables: 'WORKSPACE');
+    $dotenv->required(variables: 'PUBLIC');
+    $dotenv->required(variables: 'PROJEKT_ROOT');
     $dotenv->required(variables: 'SCSSPATH');
     $dotenv->required(variables: 'VENDOR');
     $dotenv->required(variables: 'AUTOLOAD');
-    $dotenv->required(variables: 'DOCROOT');
     $dotenv->required(variables: "STATIC");
     $dotenv->required(variables: "CSSPATH");
 
-    if(empty($_ENV['SENTRY']))
+    if(!empty($_ENV['SENTRY']))
     {
         init(options: [ 'dsn' => strval(value: $_ENV['SENTRY']) ]);
-    }
-
-    if(strval(value: $_ENV["WORKSPACE"]) !== $path or strval(value: $_ENV["AUTOLOAD"]) !== $autoload)
-    {
-        throw new Exception(message: "SCHLIMM: Unsauberer Pfad zu \"vendor/autoload.php\". Pruefen sie die ENV Variablen.");
     }
 
     $scss->setSourceMapOptions(sourceMapOptions: [ 
         'sourceMapWriteTo'  => realpath(path: $_ENV["CSSPATH"] . '/debug.min.css.map'),
         'sourceMapURL'      => 'debug.min.css.map',
         'sourceMapFilename' => 'debug.min.css',
-        'sourceMapBasepath' => realpath(path: $_ENV["WORKSPACE"]),
-        'sourceRoot'        => realpath($_ENV["SCSSPATH"]),
+        'sourceMapBasepath' => realpath(path: $_ENV["PROJEKT_ROOT"]),
+        'sourceRoot'        => realpath(path: $_ENV["SCSSPATH"]),
     ]);
 
     // Alle SCSS-Dateien im Verzeichnis finden
-    foreach(glob("scss/*.scss") as $scssFile)
+    foreach(glob("{$_ENV["SCSSPATH"]}/*.scss") as $scssFile)
     {
         // Überprüfe, ob der Dateiname nicht mit '_' beginnt
         if(basename($scssFile)[0] !== '_')
